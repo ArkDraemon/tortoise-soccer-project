@@ -19,6 +19,7 @@ import vue.Terrain;
 public class Joueuse extends Tortue implements Runnable {
 
     protected String nom;
+    protected String nomEquipe;
     protected List<Joueuse> equipe;
     protected List<Joueuse> adversaires;
     private Balle balle;
@@ -31,9 +32,10 @@ public class Joueuse extends Tortue implements Runnable {
     private Objectif objectif;
     private Principale principale;
 
-    public Joueuse(Balle balle, String nom, int x, int y, Terrain t, Principale p) {
+    public Joueuse(Balle balle, String nom, String nomEquip, int x, int y, Terrain t, Principale p) {
         super(x, y);
         this.nom = nom;
+        this.nomEquipe = nomEquip;
         this.balle = balle;
         equipe = new ArrayList<>();
         adversaires = new ArrayList<>();
@@ -173,6 +175,12 @@ public class Joueuse extends Tortue implements Runnable {
             this.balle.setPosition(this.x + 5, this.y);
             if (this.cage.isInCage(this)) {
                 System.out.println("BUUUUUT");
+                if (this.nomEquipe.equals("equipe2")) {
+                    this.principale.setScoreEquipe2(this.principale.getScoreEquipe2() + 1);
+                } else {
+                    this.principale.setScoreEquipe2(this.principale.getScoreEquipe1() + 1);
+                }
+                
             }
         }
         for (Joueuse t : this.equipe) {

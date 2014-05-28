@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -20,7 +21,7 @@ import vue.tortue.VueTortueJoueuse;
  * @author Victor Lequay
  * @creation 9 mai 2014
  */
-public class Principale extends JFrame implements ActionListener {
+public class Principale extends JFrame implements ActionListener  {
 
     private Terrain terrain;
     private Cage but1;
@@ -31,6 +32,7 @@ public class Principale extends JFrame implements ActionListener {
     private Integer scoreEquipe1;
     private Integer scoreEquipe2;
     List<Thread> tList;
+    private Score score;
     
 
     public Principale() {
@@ -56,6 +58,9 @@ public class Principale extends JFrame implements ActionListener {
         b = new JButton("Réinitialiser");
         b.addActionListener(this);
         buttonPanel.add(b);
+        b = new JButton("Score");
+        b.addActionListener(this);
+        buttonPanel.add(b);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         but1 = new Cage(new Rectangle(0, 150, 6, 100), new Rectangle(0, 150, 10, 100));
@@ -77,11 +82,12 @@ public class Principale extends JFrame implements ActionListener {
         VueTortueJoueuse vue;
         scoreEquipe1 = 0;
         scoreEquipe2 = 0;
+        score = new Score();
 
         equipe1 = new ArrayList<>();
 
         for (int i = 0; i < 6; i++) {
-            joueuse = new Joueuse(null, "joueuse_" + i, 100 + 100 * (i % 2), 100 + 100 * (i % 3), terrain, this);
+            joueuse = new Joueuse(null, "joueuse_" + i, "equipe1", 100 + 100 * (i % 2), 100 + 100 * (i % 3), terrain, this);
             joueuse.couleur(7);
             joueuse.setDir(0);
             joueuse.setCage(this.but2);
@@ -100,7 +106,7 @@ public class Principale extends JFrame implements ActionListener {
         equipe2 = new ArrayList<>();
 
         for (int i = 0; i < 6; i++) {
-            joueuse = new Joueuse(null, "joueuse_" + i, 400 + 100 * (i % 2), 100 + 100 * (i % 3), terrain, this);
+            joueuse = new Joueuse(null, "joueuse_" + i, "equipe2", 400 + 100 * (i % 2), 100 + 100 * (i % 3), terrain, this);
             joueuse.couleur(8);
             joueuse.setDir(180);
             joueuse.setCage(but1);
@@ -163,6 +169,10 @@ public class Principale extends JFrame implements ActionListener {
     private void reinitPartie() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    private void afficherScore() {
+        this.score.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -174,6 +184,8 @@ public class Principale extends JFrame implements ActionListener {
             pausePartie();
         } else if (c.equals("Réinitialiser")) {
             reinitPartie();
+        } else if (c.equals("Score")) {
+            afficherScore();
         }
 
         terrain.repaint();
@@ -185,4 +197,27 @@ public class Principale extends JFrame implements ActionListener {
         terrain.repaint();
     }
 
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScoreEquipe1(Integer scoreEquipe1) {
+        this.scoreEquipe1 = scoreEquipe1;
+        this.score.update(this.scoreEquipe1, this.scoreEquipe2);
+    }
+
+    public void setScoreEquipe2(Integer scoreEquipe2) {
+        this.scoreEquipe2 = scoreEquipe2;
+        this.score.update(this.scoreEquipe1, this.scoreEquipe2);
+    }
+
+    public Integer getScoreEquipe1() {
+        return scoreEquipe1;
+    }
+
+    public Integer getScoreEquipe2() {
+        return scoreEquipe2;
+    }
+
+    
 }
