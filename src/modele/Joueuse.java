@@ -43,6 +43,7 @@ public class Joueuse extends Tortue implements Runnable {
         paused = true;
         bonneJoueuse = false;
         distancePerception = 100;
+        principale = p;
         this.vitesse = new Random(System.currentTimeMillis()).nextInt(40)+21;
         this.strategie = StrategieAttaquant.getInstance(t);
     }

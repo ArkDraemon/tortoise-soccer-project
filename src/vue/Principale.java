@@ -28,6 +28,8 @@ public class Principale extends JFrame implements ActionListener {
     private List<Joueuse> equipe1;
     private List<Joueuse> equipe2;
     private Balle balle;
+    private Integer scoreEquipe1;
+    private Integer scoreEquipe2;
     List<Thread> tList;
 
     public Principale() {
@@ -72,11 +74,13 @@ public class Principale extends JFrame implements ActionListener {
         terrain.addTortue(vueBalle);
         Joueuse joueuse;
         VueTortueJoueuse vue;
+        scoreEquipe1 = 0;
+        scoreEquipe2 = 0;
 
         equipe1 = new ArrayList<>();
 
         for (int i = 0; i < 6; i++) {
-            joueuse = new Joueuse(null, "joueuse_" + i, 100 + 100 * (i % 2), Terrain.HEIGHT / 2 - 100 + 100 * (i % 3), terrain);
+            joueuse = new Joueuse(null, "joueuse_" + i, 100 + 100 * (i % 2), Terrain.HEIGHT / 2 - 100 + 100 * (i % 3), terrain, this);
             joueuse.couleur(7);
             joueuse.setDir(0);
             joueuse.setCage(this.but2);
@@ -95,7 +99,7 @@ public class Principale extends JFrame implements ActionListener {
         equipe2 = new ArrayList<>();
 
         for (int i = 0; i < 6; i++) {
-            joueuse = new Joueuse(null, "joueuse_" + i, Terrain.HEIGHT + 100 * (i % 2), Terrain.HEIGHT / 2 - 100 + 100 * (i % 3), terrain);
+            joueuse = new Joueuse(null, "joueuse_" + i, Terrain.HEIGHT + 100 * (i % 2), Terrain.HEIGHT / 2 - 100 + 100 * (i % 3), terrain, this);
             joueuse.couleur(8);
             joueuse.setDir(180);
             joueuse.setCage(but1);
