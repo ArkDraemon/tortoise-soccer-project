@@ -32,8 +32,6 @@ public class Principale extends JFrame implements ActionListener  {
     private Integer scoreEquipe1;
     private Integer scoreEquipe2;
     List<Thread> tList;
-    private Score score;
-    
 
     public Principale() {
         super("Tortoise Soccer Project : Jullian - Lequay - Ringot");
@@ -64,7 +62,7 @@ public class Principale extends JFrame implements ActionListener  {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         but1 = new Cage(new Rectangle(0, 150, 6, 100), new Rectangle(0, 150, 10, 100));
-        but2 = new Cage(new Rectangle(600-7, 150, 6, 100), new Rectangle(600-11, 150, 10, 100));
+        but2 = new Cage(new Rectangle(600 - 7, 150, 6, 100), new Rectangle(600 - 11, 150, 10, 100));
         terrain = new Terrain(but1, but2); //500, 400);
         getContentPane().add(terrain, "Center");
         pack();
@@ -87,7 +85,7 @@ public class Principale extends JFrame implements ActionListener  {
         equipe1 = new ArrayList<>();
 
         for (int i = 0; i < 6; i++) {
-            joueuse = new Joueuse(null, "joueuse_" + i, "equipe1", 100 + 100 * (i % 2), 100 + 100 * (i % 3), terrain, this);
+            joueuse = new Joueuse(null, "joueuse_" + i, 100 + 100 * (i % 2), Terrain.HEIGHT / 2 - 100 + 100 * (i % 3), terrain, this);
             joueuse.couleur(7);
             joueuse.setDir(0);
             joueuse.setCage(this.but2);
@@ -133,35 +131,35 @@ public class Principale extends JFrame implements ActionListener  {
                 k.ajouterAdversaire(q);
             }
         }
-        
-        for(Joueuse j : equipe1){
+
+        for (Joueuse j : equipe1) {
             Thread t = new Thread(j);
             tList.add(t);
         }
-        for(Joueuse j : equipe2){
+        for (Joueuse j : equipe2) {
             Thread t = new Thread(j);
             tList.add(t);
         }
-        for(Thread t : tList){
+        for (Thread t : tList) {
             t.start();
         }
     }
 
     private void demarrerPartie() {
         //equipe2.get(0).restart();
-        for(Joueuse j : equipe1){
+        for (Joueuse j : equipe1) {
             j.restart();
         }
-        for(Joueuse j : equipe2){
+        for (Joueuse j : equipe2) {
             j.restart();
         }
     }
-    
+
     private void pausePartie() {
-        for(Joueuse t : equipe1){
+        for (Joueuse t : equipe1) {
             t.pause();
         }
-        for(Joueuse t : equipe2){
+        for (Joueuse t : equipe2) {
             t.pause();
         }
     }
