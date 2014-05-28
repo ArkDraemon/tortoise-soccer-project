@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import vue.Cage;
+import vue.Principale;
 import vue.Terrain;
 
 /**
@@ -25,20 +26,25 @@ public class Joueuse extends Tortue implements Runnable {
     private Cage cage;
     private boolean bonneJoueuse;
     private int distancePerception;
+    private int vitesse;
     private volatile boolean paused;
     private Strategie strategie;
     private Objectif objectif;
+    private Principale principale;
 
-    public Joueuse(Balle balle, String nom, int x, int y, Terrain t) {
+    public Joueuse(Balle balle, String nom, int x, int y, Terrain t, Principale p) {
         super(x, y);
         this.nom = nom;
         this.balle = balle;
+        this.principale = p;
         equipe = new ArrayList<>();
         adversaires = new ArrayList<>();
         terrain = t;
         paused = true;
         bonneJoueuse = false;
         distancePerception = 100;
+        principale = p;
+        this.vitesse = new Random(System.currentTimeMillis()).nextInt(40)+21;
         this.strategie = StrategieAttaquant.getInstance(t);
     }
 
@@ -213,7 +219,7 @@ public class Joueuse extends Tortue implements Runnable {
                 setChanged();
                 notifyObservers();
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(this.vitesse);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Joueuse.class.getName()).log(Level.SEVERE, null, ex);
                 }
